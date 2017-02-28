@@ -25,7 +25,8 @@ public class Match {
     private int nombreDeButsEquipe2=0;
     
     /**
-     * The constructor of the Match. We want to have some Spectateurs in a different places in the stadium,in a different name and with a different sexe.
+     * The constructor of the Match.
+     * We want to have some Spectateurs in a different places in the stadium,in a different name and with a different sexe.
      * Also we have a referre on the pitch
      * @param typeTerrain : the type of Terrain we want= GAZON or SYNTHETIQUE
      * @param equipe1: the first team of the game
@@ -46,6 +47,19 @@ public class Match {
            }
     }
     
+    /**
+     * Function that permits to simulate a match with different steps.
+     * - Tir des attaquants des deux équipes avec possibilité de blessure
+     * - Possibilite de fautes / carton jaune / carton rouge
+     * - Tir des milieux des deux equipes
+     * - Sinon pas de but
+     * - On comptabilise le nombre de but
+     *      => Si egalite : 
+     * - Prolongations
+     *      => Si egalite :
+     * - Penaltys
+     * @return equipeGagnante
+     */
     public int  simulerMatch() {
         
         
@@ -54,39 +68,37 @@ public class Match {
                 
                 // tir d'un attaquant de l'equipe 1
                 if (equipe1.attaquants[i].tirer()>equipe2.defenseurs[i].defendre() && equipe1.attaquants[i].tirer()>equipe2.gardien.parade() && arbitre.siffleFaute()==false) {
+                    
                     if (Match.blessure()!=true) {
-                    
-                    nombreDeButsEquipe1++;
-                    
-                    spectateurs[5].crier();
-                    spectateurs[30].encourager();
-                    arbitre.exprimer("But pour l'equipe 1");
+                        //But pour l'équipe 1
+                        nombreDeButsEquipe1++;                   
+                        spectateurs[5].crier();
+                        spectateurs[30].encourager();
+                        arbitre.exprimer("But pour l'equipe 1");
                      
                     
                     }
                     else {
+                        //Blessure du joueur de l'équipe 1
                         spectateurs[10].pleurer();
                         arbitre.exprimer("Blessure d'un joueur à la minute "+ "   "+ minutes);
                         equipe1.attaquants[2].seBlesser();
-                        equipe1.attaquants[2].remiseZero();
-                        
+                        equipe1.attaquants[2].remiseZero();                      
                     }
                 }
-                
-                
-                    
-                    // tir d'un attaquant de l'equipe 2
-                
+                                     
+                    // tir d'un attaquant de l'equipe 2                
                 else if (equipe2.attaquants[i].tirer()>equipe1.defenseurs[i].defendre() && equipe2.attaquants[i].tirer()>equipe1.gardien.parade() && arbitre.siffleFaute()==false) {
-                    
-                     if (Match.blessure()!=true) {
+                    //But pour l'équipe 2
+                    if (Match.blessure()!=true) {
                     nombreDeButsEquipe2++;
                     spectateurs[5].crier();
                     spectateurs[30].encourager();
                     arbitre.exprimer("But pour l'equipe 2");
                  
-                     }
-                      else {
+                    }
+                    // Blessure du joueur de l'équipe 2
+                     else {
                         spectateurs[10].pleurer();
                         arbitre.exprimer("Blessure d'un joueur à la minute "+ "   "+ minutes);
                         equipe2.attaquants[2].seBlesser();
@@ -95,35 +107,39 @@ public class Match {
                      
                 }
                 
-                else if (arbitre.siffleFaute()==true) { // si faute, possibilité de mettre un carton jaune. Si 2 cartons jaune, le joueur sort du terrain
+                // si faute, possibilité de mettre un carton jaune. Si 2 cartons jaune, le joueur sort du terrain
+                else if (arbitre.siffleFaute()==true) { 
                     arbitre.exprimer("FAUTTTTEEE");
-                  
+                    
+                    //Test faute pour l'équipe 1
                     if (equipe1.defenseurs[i].agression()>equipe2.defenseurs[i].agression()) {
                         equipe1.defenseurs[i].incrementCartonJaune();
                         arbitre.exprimer("Carton Jaune pour l'équipe 1");                                           
                         
+                        //Test carton rouge équipe 1
                         if (equipe1.defenseurs[i].getCartonJaune()==2) {
                             arbitre.exprimer("Exclusion du joueur numero "+ "   "+" "+equipe1.defenseurs[1].getNumeroMaillot() + " a la minute "+minutes);
                             equipe1.defenseurs[1].remiseZero();
                             arbitre.exprimer("Carton Rouge ! SORTEZ !!");
                             }
                     }
-
+                    //Test faute pour l'équipe 2
                     else if (equipe2.defenseurs[i].agression()>equipe1.defenseurs[i].agression()) {
                         equipe2.defenseurs[i].incrementCartonJaune();
                         arbitre.exprimer("Carton Jaune pour l'équipe 2");  
                         
+                        // Test carton rouge équipe 2
                         if (equipe2.defenseurs[i].getCartonJaune()==2) {
                             arbitre.exprimer("Exclusion du joueur numero "+ "   "+" "+equipe2.defenseurs[1].getNumeroMaillot() + " a la minute "+minutes);
                             equipe2.defenseurs[1].remiseZero();
                             arbitre.exprimer("Carton Rouge ! SORTEZ !!");
                         }
                     }
-                        
+                    
+                    // Pas de faute   
                     else {
                         arbitre.exprimer("Attention à la prochaine fois");
-                        }
-                    
+                    }                 
                 }
                     
                 
@@ -149,77 +165,83 @@ public class Match {
             }
             minutes++;
         }
+        
+        // On comptabilise le nombre de buts dans chaque equipe
         if (nombreDeButsEquipe1>nombreDeButsEquipe2)  {
-            equipeGagnante=1;
-                
+            equipeGagnante=1;                           //Equipe 1 gagnante 
             }
         else if (nombreDeButsEquipe2>nombreDeButsEquipe1) {
-            equipeGagnante=2;            
-        }
-        
+            equipeGagnante=2;                           //Equipe 2 gagnante
+        }       
         else {
-            equipeGagnante=0;
+            equipeGagnante=0;                           //Egalite : prolongations - penaltys
+
+            int minutesProlongation = 0;
+            int compteur1=0;
+            int compteur2=0;
+            arbitre.exprimer("Prolongations");
+            spectateurs[10].encourager();
+
+            //Prolongations en fonction de la fatigue de 3 joueurs pendant 4 tours
+            while (minutesProlongation !=3){
+                for (int j =0 ; j<=2 ; j++){
+
+                    if (equipe1.attaquants[j].fatigue() > equipe2.attaquants[j].fatigue()){
+                        compteur1++;
+                    }
+                    else{
+                        compteur2++;
+                    }
+
+                    if (equipe1.defenseurs[j].fatigue() > equipe2.defenseurs[j].fatigue()){
+                        compteur1++;
+                    }
+                    else {
+                        compteur2++;
+                    }
+                    if (equipe1.milieux[j].fatigue() > equipe2.milieux[j].fatigue()){
+                        compteur1++;
+                    }
+                    else {
+                        compteur2++;
+                    }
+                }
+                minutesProlongation++;
             }
-        
-      if (equipeGagnante==0) {
-        int minutesProlongation = 0;
-        int compteur1=0;
-        int compteur2=0;
-        arbitre.exprimer("Prolongations");
-        spectateurs[10].encourager();
 
-        while (minutesProlongation !=3){
-            for (int j =0 ; j<=2 ; j++){
+            // On compte le nombre de "points de fatigue"
 
-                if (equipe1.attaquants[j].fatigue() > equipe2.attaquants[j].fatigue()){
-                    compteur1++;
-                }
-                else{
-                    compteur2++;
-                }
-                
-                if (equipe1.defenseurs[j].fatigue() > equipe2.defenseurs[j].fatigue()){
-                    compteur1++;
-                }
-                else {
-                    compteur2++;
-                }
-                if (equipe1.milieux[j].fatigue() > equipe2.milieux[j].fatigue()){
-                    compteur1++;
-                }
-                else {
-                    compteur2++;
-                }
+            //Equipe 2 gagne
+            if (compteur1 > compteur2){
+                equipeGagnante=2;       
             }
-            minutesProlongation++;
-        }
 
-        if (compteur1 > compteur2){
-            equipeGagnante=2;
-        }
-        else if (compteur2 > compteur1){
-          equipeGagnante=1;
-      }
-        else {
-            equipeGagnante=0;
-        } 
+            //Equipe 1 gagne
+            else if (compteur2 > compteur1){
+              equipeGagnante=1;         
+            }
 
-        if (equipeGagnante==0){
-            equipeGagnante = Match.penalty();
-        }
-    }
-      
-      return equipeGagnante;
+            // Egalite on passe aux penaltys = victoire au hasard
+            else {
+                equipeGagnante=0;
+                equipeGagnante = Match.penalty();
+            } 
+    }     
+    return equipeGagnante;
     }
         
     
-    
+    /**
+     * Methode simulant la blessure.
+     * Utilisation d'un random de 0 à 10
+     * @return blessure
+     */
     public static  boolean blessure() {
          boolean blessure=false;
         Random rand = new Random();
         int nombreAleatoire = rand.nextInt(10);
        
-             if (nombreAleatoire  >2)
+             if (nombreAleatoire  <3)
                 {
                    blessure=true;
                    }
@@ -227,6 +249,11 @@ public class Match {
                     
                 }
             
+    /**
+     * Simulation des penaltys.
+     * Random entre les deux équipes
+     * @return resultat
+     */  
     public static int penalty(){
         int resultat=0;
         double penalty1 = Math.random();
@@ -239,8 +266,7 @@ public class Match {
         }
         return resultat;
     }
-     
-
+ 
 }
 
 
