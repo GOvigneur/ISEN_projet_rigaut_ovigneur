@@ -166,7 +166,6 @@ public ArrayList finale (){
         //return équipes gagnante en quarts
         if (finale.equipeGagnante==1) {
             equipeFinale.add(equipeGagnanteDemi.get(0));
-            equipeGagnanteDemi.add(0,equipeGagnanteDemi.get(1));        //On remet les 2eme au début de la liste equipeGagnanteDemi (peut être pas utile)
         }
             
         if (finale.equipeGagnante==2) {
@@ -175,6 +174,42 @@ public ArrayList finale (){
     System.out.println(equipeFinale);
     return equipeFinale;
 }
+
+    public ArrayList<Equipe> getEquipeEnLis() {
+        return equipeEnLis;
+    }
+
+    public ArrayList<Equipe> getEquipeQualifie() {
+        return equipeQualifie;
+    }
+
+    public ArrayList<Equipe> getEquipeGagnanteHuit() {
+        return equipeGagnanteHuit;
+    }
+
+    public ArrayList<Equipe> getEquipePerdanteHuit() {
+        return equipePerdanteHuit;
+    }
+
+    public ArrayList<Equipe> getEquipeGagnanteQuarts() {
+        return equipeGagnanteQuarts;
+    }
+
+    public ArrayList<Equipe> getEquipePerdanteQuarts() {
+        return equipePerdanteQuarts;
+    }
+
+    public ArrayList<Equipe> getEquipeGagnanteDemi() {
+        return equipeGagnanteDemi;
+    }
+
+    public ArrayList<Equipe> getEquipePerdanteDemi() {
+        return equipePerdanteDemi;
+    }
+
+    public ArrayList<Equipe> getEquipeFinale() {
+        return equipeFinale;
+    }
 
 
 }
