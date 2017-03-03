@@ -36,18 +36,42 @@ public class ISEN_projet_rigaut_ovigneur {
         System.out.println(match.equipeGagnante);
         System.out.println(marseille.attaquants[2].getStatTir());
         
-        Tournoi tournoi = new Tournoi();
+        Tournoi tournoi = new Tournoi();    
         tournoi.qualificaionsTournoi();
         tournoi.huitiemes();
         tournoi.quarts();
         tournoi.demi();
         tournoi.finale();
         
-       
-       
+        System.out.println(tournoi.getEquipeEnLis());
+        System.out.println(tournoi.getEquipeQualifie());
+        System.out.println(tournoi.getEquipePerdanteHuit());
+        System.out.println(tournoi.getEquipeGagnanteHuit());
+        System.out.println(tournoi.getEquipePerdanteQuarts());
+        System.out.println(tournoi.getEquipeGagnanteQuarts());
+        System.out.println(tournoi.getEquipePerdanteDemi());
+        System.out.println(tournoi.getEquipeGagnanteDemi());
+        System.out.println(tournoi.getEquipeFinale());
+
         
         
-     
+        //Mise en place de "l'interface"
+        Scanner sc = new Scanner(System.in);
+        
+        //Choix du mode de jeu
+        System.out.println("\n     *** Choix du mode de jeu *** \n\t| tournoi   : taper 1|\n\t| mode solo : taper 2|");
+        int modeDeJeu = sc.nextInt();
+        sc.nextLine();                  //On vide la ligne
+        
+        //AJOUTER UNE EXCEPTION POUR LE MODE DE JEU
+        
+        
+        
+        //Choix de l'equipe a l'aide d'un scanner
+//       System.out.println("Choisissez votre équipe :");
+//       NomEquipe equipe;
+//       Equipe equipeChoisit = new Equipe(nomEquipe);
+       
 
 
     /*Scanner sc = new Scanner(System.in);
