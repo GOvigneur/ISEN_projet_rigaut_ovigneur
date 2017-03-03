@@ -147,7 +147,7 @@ public class Equipe {
              default:
               this.surnom="KESTU FAIS";
               this.stade="INEXISTANT";
-    
+                        
         }
         
     }
@@ -186,6 +186,11 @@ public class Equipe {
   
     public void setSurnom(String surnom) {
         this.surnom=surnom;
+    }
+
+    @Override
+    public String toString() {
+        return ""+ name +"";
     }
     
     

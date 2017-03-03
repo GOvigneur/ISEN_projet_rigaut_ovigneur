@@ -88,6 +88,10 @@ public enum NomEquipe {
      * The name of the team is LILLE
      */
     LILLE,
+    /**
+     * The name of the team is NANCY
+     */
+    NANCY,
     
     
 }

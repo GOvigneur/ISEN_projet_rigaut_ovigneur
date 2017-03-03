@@ -35,6 +35,14 @@ public class ISEN_projet_rigaut_ovigneur {
         match.simulerMatch();
         System.out.println(match.equipeGagnante);
         System.out.println(marseille.attaquants[2].getStatTir());
+        
+        Tournoi tournoi = new Tournoi();
+        tournoi.qualificaionsTournoi();
+        tournoi.huitiemes();
+        tournoi.quarts();
+        tournoi.demi();
+        tournoi.finale();
+        
        
        
         
